@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div th:replace="~{'home' :: header}"></div>
+
+<h1 align="center" th:if="${role == 'ROLE_USER'}">Мои заказы</h1>
+<h1 align="center" th:if="${role != 'ROLE_USER'}">Активные клиенты</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Активные заказы:</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Дата оформления</th>
+                    <th>Дата получения</th>
+                    <th>Цена</th>
+                    <th>Статус</th>
+                    <th>Посмотреть заказ</th>
+                    <th th:if="${role != 'ROLE_USER'}">Изменить статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}" th:if="${order.getStatusOrder() != 'Доставлен'}">
+                    <td th:text="${order.getId()}"></td>
+                    <td th:text="${order.getDate()}"></td>
+                    <td th:text="${order.getDeliveryDate()}"></td>
+                    <td th:text="${order.getPrice()}"></td>
+                    <td th:text="${order.getStatusOrder()}"></td>
+                    <td>
+                        <a th:href="@{/orders/{id}(id=${order.getId()})}">
+                            <button class="btn btn-primary " style="width: 100%;">Перейти</button>
+                        </a>
+                    </td>
+                    <td th:if="${role != 'ROLE_USER'}">
+                        <form th:object="${orderId}" th:action="@{/orders/update-order}" method="post">
+                            <input type="hidden" name="orderId" th:value="${order.getId()}">
+                            <label>
+                                <select name="newStatus" required>
+                                    <option value="Собран">Собран</option>
+                                    <option value="В пути">В пути</option>
+                                    <option value="Доставлен">Доставлен</option>
+                                </select>
+                            </label>
+                            <button class="btn btn-primary " type="submit" >Изменить</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" th:if="${role == 'ROLE_USER'}">
+        <div class="col-lg-12">
+            <h2>Доставленные заказы:</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Номер заказа</th>
+                    <th>Дата оформления</th>
+                    <th>Дата получения</th>
+                    <th>Цена</th>
+                    <th>Статус</th>
+                    <th>Посмотреть заказ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}"
+                    th:if="${order.getStatusOrder() == 'Доставлен' or order.getStatusOrder() == 'Отменен'}">
+                    <td th:text="${order.getId()}"></td>
+                    <td th:text="${order.getDate()}"></td>
+                    <td th:text="${order.getDeliveryDate()}"></td>
+                    <td th:text="${order.getPrice()}"></td>
+                    <td th:text="${order.getStatusOrder()}"></td>
+                    <td>
+                        <a th:href="@{/orders/{id}(id=${order.getId()})}">
+                            <button class="btn btn-primary " style="width: 100%;">Перейти</button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

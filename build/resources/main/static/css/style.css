@@ -1,0 +1,152 @@
+.add-product {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #397781;
+    color: #efe8e8;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.add-product:hover {
+    background-color: #135059;
+}
+
+
+ .card {
+     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+     transition: 0.3s;
+     border-radius: 5px;
+     padding: 10px;
+ }
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+    padding: 2px 16px;
+}
+
+.fa {
+    font-size: 25px;
+}
+
+.buy-button {
+    display: block; /* чтобы кнопка была на одной строке */
+    margin: 0 auto; /* центрирование по горизонтали */
+    width: 200px; /* ширина кнопки */
+    padding: 10px; /* отступ внутри кнопки */
+    background-color: #4CAF50; /* цвет фона кнопки */
+    border: none; /* убираем границу */
+    color: white; /* цвет текста */
+    text-align: center; /* выравнивание текста по центру */
+    text-decoration: none; /* убираем подчеркивание */
+    font-size: 16px; /* размер шрифта */
+    cursor: pointer; /* указываем, что это кнопка */
+    border-radius: 5px; /* скругляем углы */
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #fff;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 30px;
+}
+
+.logo a {
+    color: #000;
+    text-decoration: none;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Стили для списка */
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+li {
+    margin-right: 20px;
+    position: relative;
+}
+
+li:hover::before {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #007bff;
+    animation: slideIn 0.3s linear forwards;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: #ffffff;
+}
+
+
+@keyframes slideIn {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Остальные стили */
+.header {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.header a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/*body {*/
+/*    background: #efb1b1;*/
+/*}*/
+
+.btn-secondary {
+    text-color: #333333;
+}

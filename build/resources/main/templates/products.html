@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div th:replace="~{'home' :: header}"></div>
+<h1 align="center">Товары нашей лавки</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" th:each="product : ${products}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text">
+                        Артикул: <span th:text="${product.id}"></span><br>
+                        Описание: <span th:text="${product.description}"></span><br>
+                        Цена в рублях: <span th:text="${product.cost}"></span><br>
+                        Вес в килограммах: <span th:text="${product.weight}"></span>
+                    </p>
+                </div>
+
+                <form th:method="POST" th:action="@{/cart}" th:object="${cart}" class="form-inline">
+                    <div class="form-group mr-2">
+                        <label for="count">Добавить товаров:</label>
+                        <input type="number" th:field="*{count}" id="count" min="1" size="2"/>
+                        <div class="error-message" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">Cost Error</div>
+                    </div>
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="btn btn-success add-product">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<a href="/cart" class="btn btn-primary btn-floating position-fixed" style="top: 1rem; right: 1rem;">-->
+<!--    <i class="fa fa-shopping-cart"></i>-->
+<!--    <span th:text="${cartSize}" class="badge bg-danger rounded-circle" style="font-size: 10px; position: absolute; top: -8px; right: -8px;"></span>-->
+<!--</a>-->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a href="/products" >Лавка</a>
+    </div>
+    <nav>
+        <ul>
+            <li><a th:href="@{/cart}" style="text-decoration: none;">Корзина</a></li>
+            <li><a th:href="@{/orders}" style="text-decoration: none;">История заказов</a></li>
+            <li><form th:action="@{/logout}" method="post"><button type="submit" style="border: none; background: none; color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;">Выход</button></form></li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/admin}" style="text-decoration: none;" >Админ</a></li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/products/edit}" style="text-decoration: none;" >Редактировать товары</a></li>
+        </ul>
+    </nav>
+</header>
+
+</body>
+</html>
