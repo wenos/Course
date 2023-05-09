@@ -2,6 +2,7 @@ package com.example.course.services;
 
 
 import com.example.course.models.Product;
+import com.example.course.models.ProductInfo;
 import com.example.course.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,7 @@ public class ProductService {
 
     @PreAuthorize("hasRole('ROLE_MAINADMIN') or hasRole('ROLE_ADMIN') ")
     public void deleteById(long id) {
+
         cartService.deleteByProductId(id);
         productInOrderService.deleteByProductId(id);
         productRepository.findById(id).ifPresent(product -> productRepository.deleteById(id));
@@ -36,5 +38,7 @@ public class ProductService {
     public Optional<Product> findById(long id){
         return productRepository.findById(id);
     }
+
+
 
 }

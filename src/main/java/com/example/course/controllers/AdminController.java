@@ -2,7 +2,6 @@ package com.example.course.controllers;
 
 
 import com.example.course.models.Person;
-import com.example.course.models.Product;
 import com.example.course.repository.PeopleRepository;
 import com.example.course.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -24,6 +22,7 @@ public class AdminController {
 
     private final PeopleRepository peopleRepository;
     private final AdminService adminService;
+
     @Autowired
     public AdminController(PeopleRepository peopleRepository, AdminService adminService) {
         this.peopleRepository = peopleRepository;
@@ -32,22 +31,22 @@ public class AdminController {
 
     @PostMapping("/update-user")
     public String updateUser(@RequestParam String username, @RequestParam String newRole) {
-        adminService.updateUserRole(username, newRole);
-        return "redirect:/admin";
+
+        if (adminService.updateUserRole(username, newRole) != null) {
+            return "redirect:/admin";
+        } else {
+            return "redirect:/admin?error";
+        }
+
     }
 
-    @GetMapping("/all-users")
-    public String allUsers(Principal principal, Model model) {
-        String username = principal.getName(); // получаем имя текущего пользователя
-        System.out.println(peopleRepository.findByUsername(username).get().getId());
+    @GetMapping("")
+    public String AdminPage(Model model, String error) {
         List<Person> users = peopleRepository.findAll();
         model.addAttribute("users", users);
-        return "all-users";
+        model.addAttribute("error", error);
+        return "admin";
     }
-
-//    @GetMapping("/new")
-//    public String showCreateForm(Model model) {
-//        model.addAttribute("product", new Product());
-//        return "createProduct";
-//    }
 }
+
+

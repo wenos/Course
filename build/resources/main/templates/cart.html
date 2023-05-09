@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Users</title>
+    <title>Cart</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -48,7 +48,7 @@
                     Цена в рублях: <span th:text="${product.cost}"></span><br>
                     Вес в килограммах: <span th:text="${product.weight}"></span><br>
                     Количество: <span th:text="${product.count}"></span><br>
-                    Общая цена: <span th:text="${product.count * product.cost}"></span>
+                    Общая цена: <span th:text="${product.getOverPrice()}"></span>
                     </p>
                 </div>
             </div>

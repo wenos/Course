@@ -19,7 +19,7 @@
 </head>
 <body>
 <div th:replace="~{'home' :: header}"></div>
-<h2 >Обновить пользователя</h2>
+<h2>Обновить пользователя</h2>
 <form th:align="center" th:action="@{/admin/update-user}" method="post">
     <label>Username:</label>
     <input type="text" name="username" required>
@@ -28,11 +28,27 @@
         <option value="USER">USER</option>
         <option value="ADMIN">ADMIN</option>
     </select>
+    <div th:if="${error != null}" style="color: red; text-align: center;">
+        Мой/я господин/жа такой пользователь не существует, список ниже(
+    </div>
     <button type="submit" class="btn btn-primary ">Обновить</button>
 </form>
-<h2 align="center">Посмотреть список пользователей</h2> <a style="width: 100%;" href="/admin/all-users" class="btn btn-primary ">All Users</a>
 
 
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" th:each="user : ${users}">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${user.username}"></h5>
+                <p class="card-text">
+                    ID: <span th:text="${user.id}"></span><br>
+                    Year of Birth: <span th:text="${user.yearOfBirth}"></span><br>
+                    Role: <span th:text="${user.role}"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

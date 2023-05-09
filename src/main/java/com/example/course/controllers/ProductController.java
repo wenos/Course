@@ -34,13 +34,10 @@ public class ProductController {
         this.personService = personService;
     }
     @GetMapping("")
-    public String showProducts(Model model, Principal principal) {
+    public String showProducts(Model model) {
         List<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
         model.addAttribute("cart", new Cart());
-        long sum = cartService.findAllByUserId(personService.getPersonId(principal)).stream().mapToLong(Cart::getCount).sum();
-        model.addAttribute("cartSize", sum);
-        model.addAttribute("role", personService.role(principal));
         return "products";
     }
 
@@ -54,16 +51,19 @@ public class ProductController {
     }
     @GetMapping("/edit")
     @PreAuthorize("hasRole('ROLE_MAINADMIN') or hasRole('ROLE_ADMIN')")
-    public String editProducts(Model model) {
+    public String editProducts(Model model, String error) {
         model.addAttribute("product", new Product());
         model.addAttribute("productId", 0);
+        model.addAttribute("error", error);
         return "products-edit";
     }
     @PostMapping("/delete")
     @Transactional
     public String editProducts(@RequestParam("productId") long productId) {
+        if (productService.findById(productId).isEmpty()) {
+            return "redirect:/products/edit?error";
+        }
         productService.deleteById(productId);
-
         return "redirect:/products/edit";
     }
 

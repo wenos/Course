@@ -33,6 +33,7 @@ public class CartController {
         for (ProductInfo pr: productInfo) {
             if (pr.isActive())
                 sum += (long) pr.getCost() * pr.getCount();
+            pr.setOverPrice((long) pr.getCost() * pr.getCount());
         }
         model.addAttribute("products", productInfo);
         model.addAttribute("prodId", 0);

@@ -7,6 +7,7 @@ import com.example.course.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,8 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registrationPage(@ModelAttribute("person") Person person) {
+    public String registrationPage(@ModelAttribute("person") Person person, Model model, String error) {
+        model.addAttribute("error", error);
         return "auth/registration";
     }
 
@@ -37,7 +39,7 @@ public class AuthController {
                                       BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/auth/registration";
+            return "redirect:/auth/registration?error";
         }
         registrationService.register(person);
         return "redirect:/auth/login";

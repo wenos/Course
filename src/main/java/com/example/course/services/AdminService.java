@@ -19,25 +19,14 @@ public class AdminService {
     }
 
 
-//    public void refactRole(String username, String Role) {
-//
-//        Optional<Person> t = peopleRepository.findByUsername(username);
-//        if (!t.isPresent()) {
-//
-//        }
-//
-//    }
-
     @PreAuthorize("hasRole('ROLE_MAINADMIN')")
-    public void updateUserRole(String username, String newRole) {
+    public Person updateUserRole(String username, String newRole) {
         Optional<Person> person = peopleRepository.findByUsername(username);
         if (person.isPresent()) {
             Person person1 = person.get();
             person1.setRole("ROLE_" + newRole);
-            peopleRepository.save(person1);
-        } else {
-            // Обработка случая, когда пользователя не существует
-            throw new RuntimeException("User not found: " + username);
-        }
+            return peopleRepository.save(person1);
+        } else
+            return null;
     }
 }

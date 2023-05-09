@@ -2,15 +2,165 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Users</title>
+    <title>Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .add-product {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #397781;
+            color: #efe8e8;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
 
+        .add-product:hover {
+            background-color: #135059;
+        }
+
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+
+        .fa {
+            font-size: 25px;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            padding: 0 30px;
+        }
+
+        .logo a {
+            color: #000;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        nav li {
+            margin: 0 10px;
+        }
+
+        nav a {
+            color: #000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+
+        /* Стили для списка */
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li {
+            margin-right: 20px;
+            position: relative;
+        }
+
+        li:hover::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #007bff;
+            animation: slideIn 0.3s linear forwards;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #ffffff;
+        }
+
+
+        @keyframes slideIn {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+
+        .header a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+
+
+    </style>
 </head>
 <body>
-<div th:replace="~{'home' :: header}"></div>
+<header>
+    <div class="logo">
+        <a href="/products" >Лавка</a>
+    </div>
+    <nav>
+        <ul>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><a href="/cart"  style="text-decoration: none;">Корзина</a></li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><a href="/orders" style="text-decoration: none;">История заказов</a></li>
+
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/admin}" style="text-decoration: none;" >Админ</a></li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/products/edit}" style="text-decoration: none;" >Редактировать товары</a></li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><form th:action="@{/logout}" method="post"><button type="submit" style="border: none; background: none; color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;">Выход</button></form></li>
+        </ul>
+    </nav>
+</header>
+
 <h1 align="center">Товары нашей лавки</h1>
 <div class="container">
     <div class="row">
