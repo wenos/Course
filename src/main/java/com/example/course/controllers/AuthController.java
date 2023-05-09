@@ -55,14 +55,14 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-    @GetMapping("/passwd")
+    @GetMapping("/passwda")
     public String PersonLk(Model model, String ms) {
         model.addAttribute("ms", ms);
         return "/auth/passwd";
     }
 
 
-    @PostMapping("/passwd")
+    @PostMapping("/passwda")
     public String newPassword(@RequestParam("password") String password, @RequestParam("username") String username, @RequestParam("phone") String phone, Principal principal, RedirectAttributes redirectAttributes) {
         Person person = personService.findByUsernameAndPhone(username, phone);
         if (person != null) {
@@ -73,7 +73,7 @@ public class AuthController {
         } else {
             redirectAttributes.addAttribute("ms", "error");
         }
-        return "redirect:/auth/passwd";
+        return "redirect:/auth/passwda";
     }
 
 }
