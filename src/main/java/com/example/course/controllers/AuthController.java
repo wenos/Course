@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/auth")
@@ -58,7 +57,7 @@ public class AuthController {
     @GetMapping("/passwda")
     public String PersonLk(Model model, String ms) {
         model.addAttribute("ms", ms);
-        return "/auth/passwd";
+        return "passwd";
     }
 
 
