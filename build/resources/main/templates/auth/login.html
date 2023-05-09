@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/style.css">
     <style>
         .container h2 {
             text-align: center;
@@ -99,6 +99,8 @@
         <div th:if="${param.error}" style="color: red; text-align: center;">
             Неправильные имя или пароль
         </div>
+        <p class="text-center"><a href="/auth/passwd">Забыли пароль?</a></p>
+
     </form>
 </div>
 </body>

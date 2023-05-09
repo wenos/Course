@@ -59,7 +59,6 @@ public class CartController {
 
     @PostMapping("/edit")
     public String editCart(@RequestParam("active") boolean active, @RequestParam("prodId") long productId, Principal principal) {
-        System.out.println(active);
         Cart cart = cartService.findCartByUserIdAndProductId(personService.getPersonId(principal), productId);
         if (cart != null) {
             cart.setActive(active);

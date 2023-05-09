@@ -45,6 +45,7 @@
             font-size: 25px;
         }
 
+
         body {
             margin: 0;
             padding: 0;
@@ -138,65 +139,85 @@
             font-weight: bold;
         }
 
+         body {
+             font-family: Arial, sans-serif;
+             background-color: #f2f2f2;
+         }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-text {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="password"] {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
-<header>
-    <div class="logo">
-        <a href="/products"><img src="/static/logo.png" width="80" height="80" alt="Лавка"></a>
-    </div>
-    <nav>
-        <ul>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><a href="/cart"  style="text-decoration: none;">Корзина</a></li>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><a href="/orders" style="text-decoration: none;">История заказов</a></li>
-            <li th:unless="${#authorization.expression('hasRole(''ROLE_USER'')') or #authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/auth/login}" style="text-decoration: none;">Войти</a></li>
-            <li th:unless="${#authorization.expression('hasRole(''ROLE_USER'')') or #authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/auth/registration}" style="text-decoration: none;">Зарегистрироваться</a></li>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/admin}" style="text-decoration: none;" >Админ</a></li>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'')')}"><a th:href="@{/products/edit}" style="text-decoration: none;" >Редактировать товары</a></li>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><form th:action="@{/logout}" method="post"><button type="submit" style="border: none; background: none; color: #000;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;">Выход</button></form></li>
-            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_MAINADMIN'') or hasRole(''ROLE_USER'')')}"><form th:action="@{/person}" method="post"> <a href="/person" style="text-decoration: none;"><i class="fas fa-user"></i></a></form></li>
-        </ul>
-    </nav>
-</header>
-
-<h1 align="center">Товары нашей лавки</h1>
+<div th:replace="~{'home' :: header}"></div>
+<h1>Личный кабинет</h1>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-4" th:each="product : ${products}">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}"></h5>
-                    <p class="card-text">
-                        Артикул: <span th:text="${product.id}"></span><br>
-                        Описание: <span th:text="${product.description}"></span><br>
-                        Цена в рублях: <span th:text="${product.cost}"></span><br>
-                        Вес в килограммах: <span th:text="${product.weight}"></span>
-                    </p>
-                </div>
-
-                <form th:method="POST" th:action="@{/cart}" th:object="${cart}" class="form-inline">
-                    <div class="form-group mr-2">
-                        <label for="count">Добавить товаров:</label>
-                        <input type="number" th:field="*{count}" id="count" min="1" size="2"/>
-                        <div class="error-message" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">Cost Error</div>
-                    </div>
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="btn btn-success add-product">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </form>
+        <p class="card-text">
+            Username: <span th:text="${person.username}"></span><br>
+            Имя: <span th:text="${person.firstName}"></span><br>
+            Фамилия: <span th:text="${person.lastName}"></span><br>
+            Год рождения: <span th:text="${person.yearOfBirth}"></span><br>
+            Номер телефона: <span th:text="${person.phone}"></span>
+        </p>
+        <form th:method="POST" th:action="@{/person/passwd}" th:object="${password}">
+            <div>
+                <label for="password">Изменить пароль:</label>
+                <input type="password" name="password" id="password" required/>
+                <button class="btn" type="submit"><i class="fas fa-save"></i> Сохранить</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
-<!--<a href="/cart" class="btn btn-primary btn-floating position-fixed" style="top: 1rem; right: 1rem;">-->
-<!--    <i class="fa fa-shopping-cart"></i>-->
-<!--    <span th:text="${cartSize}" class="badge bg-danger rounded-circle" style="font-size: 10px; position: absolute; top: -8px; right: -8px;"></span>-->
-<!--</a>-->
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

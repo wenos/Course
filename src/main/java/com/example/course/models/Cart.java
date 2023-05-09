@@ -23,6 +23,7 @@ public class Cart {
     @Column(name = "is_active")
     private boolean active;
 
+
     public boolean isActive() {
         return active;
     }

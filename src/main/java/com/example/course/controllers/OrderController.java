@@ -73,6 +73,7 @@ public class OrderController {
         }
         model.addAttribute("products", productsInfo);
         model.addAttribute("price", sum);
+        model.addAttribute("orderAddress", orderService.findById(id).get().getAddress());
         model.addAttribute("id", id);
 
         return "order";
@@ -80,11 +81,11 @@ public class OrderController {
 
     @Transactional
     @PostMapping("/buy")
-    public String newOrder(Principal principal, long price) {
+    public String newOrder(Principal principal, long price, @RequestParam("address") String address) {
         long personId = personService.getPersonId(principal);
         Optional<List<Cart>> optionalCarts = cartService.deleteAllByUserIdAndActive(personId, true);
         List<Cart> carts = optionalCarts.get();
-        Order order = new Order(LocalDate.now(), LocalDate.now().plusDays(1), personId, "Оформлен", price);
+        Order order = new Order(LocalDate.now(), LocalDate.now().plusDays(1), personId, "Оформлен", price, address);
         orderService.saveOrder(order);
         for (Cart cart : carts) {
             ProductInOrder productInOrder = new ProductInOrder(order.getId(), cart.getProductId(), cart.getCount());

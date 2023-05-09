@@ -27,6 +27,16 @@ public class Order {
     @Column(name = "price")
     private long price;
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Column(name = "address")
+    private String address;
 
     public long getPrice() {
         return price;
@@ -36,12 +46,13 @@ public class Order {
         this.price = price;
     }
 
-    public Order(LocalDate date, LocalDate deliveryDate, long personId, String statusOrder, long price) {
+    public Order(LocalDate date, LocalDate deliveryDate, long personId, String statusOrder, long price, String address) {
         this.date = date;
         this.deliveryDate = deliveryDate;
         this.personId = personId;
         this.statusOrder = statusOrder;
         this.price = price;
+        this.address = address;
     }
 
     public Order() {
