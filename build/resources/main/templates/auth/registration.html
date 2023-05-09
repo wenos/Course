@@ -95,7 +95,7 @@
         </div>
         <div>
             <label for="yearOfBirth">Год рождения:</label>
-            <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth" required/>
+            <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth" min="1900" max="2023" required/>
             <div class="error-message" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error</div>
         </div>
         <div>
