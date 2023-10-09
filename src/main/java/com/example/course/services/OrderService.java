@@ -30,6 +30,7 @@ public class OrderService {
     }
 
 
+
     public List<Order> findAllByStatusOrderNot(String status) {
         return orderRepository.findAllByStatusOrderNot(status);
     }

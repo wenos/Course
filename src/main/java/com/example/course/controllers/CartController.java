@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -47,6 +48,16 @@ public class CartController {
         cartService.deleteProductInCart(personService.getPersonId(principal), productId);
         return "redirect:/cart";
     }
+
+    @Transactional
+    @PostMapping("/delete_all")
+    public String deleteCarts(Principal principal) {
+        long personId = personService.getPersonId(principal);
+        cartService.deleteAllByUserId(personId);
+        System.out.println(personId);
+        return "redirect:/cart";
+    }
+
     @PostMapping("")
     public String createProductInCart(@ModelAttribute("cart") Cart cart, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {

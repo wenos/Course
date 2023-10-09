@@ -74,6 +74,11 @@ public class CartService {
         return cartRepository.deleteAllByUserIdAndActive(userid, active);
     }
 
+    public Optional<List<Cart>> deleteAllByUserId(long userId) {
+        return cartRepository.deleteAllByUserId(userId);
+    }
+
+
     public Cart findCartByUserIdAndProductId(long userId, long productId) {
         return cartRepository.findByUserIdAndProductId(userId, productId).orElse(null);
     }

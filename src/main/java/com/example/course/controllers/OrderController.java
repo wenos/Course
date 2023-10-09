@@ -94,6 +94,9 @@ public class OrderController {
         return "redirect:/orders";
     }
 
+
+
+
     @PostMapping("/update-order")
     public String updateOrder(Principal principal, long orderId, String newStatus) {
         System.out.println(orderId + " " + newStatus);
