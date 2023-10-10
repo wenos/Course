@@ -2,6 +2,7 @@ package com.example.course.controllers;
 
 
 import com.example.course.models.*;
+import com.example.course.repository.ProductRepository;
 import com.example.course.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,15 +24,16 @@ public class OrderController {
     private final CartService cartService;
     private final PersonService personService;
     private final ProductInOrderService productInOrderService;
-
+    private final ProductRepository productRepository;
     private final ProductService productService;
 
     @Autowired
-    public OrderController(OrderService orderService, CartService cartService, PersonService personService, ProductInOrderService productInOrderService, ProductService productService) {
+    public OrderController(OrderService orderService, CartService cartService, PersonService personService, ProductInOrderService productInOrderService, ProductRepository productRepository, ProductService productService) {
         this.orderService = orderService;
         this.cartService = cartService;
         this.personService = personService;
         this.productInOrderService = productInOrderService;
+        this.productRepository = productRepository;
         this.productService = productService;
     }
 
@@ -89,6 +91,10 @@ public class OrderController {
         orderService.saveOrder(order);
         for (Cart cart : carts) {
             ProductInOrder productInOrder = new ProductInOrder(order.getId(), cart.getProductId(), cart.getCount());
+            var a = productRepository.findById(cart.getProductId());
+            Product product = a.get();
+            product.setCount(product.getCount() - cart.getCount());
+            productRepository.save(product);
             productInOrderService.save(productInOrder);
         }
         return "redirect:/orders";

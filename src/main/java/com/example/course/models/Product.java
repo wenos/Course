@@ -4,6 +4,8 @@ package com.example.course.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "products")
@@ -33,6 +35,11 @@ public class Product {
     @Column(name = "weight")
     private float weight;
 
+
+    @Column(name = "count")
+    private int count;
+
+
     public float getWeight() {
         return weight;
     }
@@ -45,11 +52,12 @@ public class Product {
 
     }
 
-    public Product(String name, String description, int cost, int weight) {
+    public Product(String name, String description, int cost, int weight, int count) {
         this.name = name;
         this.description = description;
         this.cost = cost;
         this.weight = weight;
+        this.count = count;
     }
 
     public Long getId() {
@@ -74,6 +82,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getCost() {

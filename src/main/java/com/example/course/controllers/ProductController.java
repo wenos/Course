@@ -23,15 +23,12 @@ import java.util.List;
 public class ProductController {
     private final ProductRepository productRepository;
     private final ProductService productService;
-    private final CartService cartService;
-    private final PersonService personService;
+
 
     @Autowired
-    public ProductController(ProductRepository productRepository, ProductService productService, CartService cartService, PersonService personService) {
+    public ProductController(ProductRepository productRepository, ProductService productService) {
         this.productRepository = productRepository;
         this.productService = productService;
-        this.cartService = cartService;
-        this.personService = personService;
     }
     @GetMapping("")
     public String showProducts(Model model) {

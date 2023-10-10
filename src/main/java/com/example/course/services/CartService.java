@@ -31,12 +31,15 @@ public class CartService {
 
     public void createCart(Cart cart) {
         Optional<Cart> cart1 = cartRepository.findByUserIdAndProductId(cart.getUserId(), cart.getProductId());
+
         cart.setActive(true);
         if (cart1.isPresent()) {
             cart.setCount(cart1.get().getCount() + cart.getCount());
             cart.setId(cart1.get().getId());
         }
-        cartRepository.save(cart);
+        if (cart.getCount() <= productRepository.findById(cart.getProductId()).get().getCount())
+            cartRepository.save(cart);
+
     }
 
     public void save(Cart cart) {
@@ -53,15 +56,19 @@ public class CartService {
         List<ProductInfo> productsInfo = new ArrayList<>();
         for (Cart productInCart : productsInCart) {
             Product product = productRepository.findById(productInCart.getProductId()).get();
-            ProductInfo productInfo = new ProductInfo(
-                    product.getId(),
-                    product.getName(),
-                    product.getDescription(),
-                    product.getCost(),
-                    product.getWeight(),
-                    productInCart.getCount(),
-                    productInCart.isActive());
-            productsInfo.add(productInfo);
+            if (product.getCount() >= productInCart.getCount()) {
+                ProductInfo productInfo = new ProductInfo(
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getCost(),
+                        product.getWeight(),
+                        productInCart.getCount(),
+                        productInCart.isActive());
+                productsInfo.add(productInfo);
+            } else {
+                cartRepository.deleteCartByUserIdAndProductId(personService.getPersonId(principal), productInCart.getProductId());
+            }
         }
         return productsInfo;
     }

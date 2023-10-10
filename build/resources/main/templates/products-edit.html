@@ -99,6 +99,13 @@
             <div class="error-message" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Weight Error
             </div>
 
+
+            <label for="count">Count:</label>
+            <input type="number" th:field="*{count}" id="count" min="1" max="999999999"/>
+            <div class="error-message" th:if="${#fields.hasErrors('count')}" th:errors="*{count}">Count Error</div>
+
+
+            
             <input type="submit" value="Save Product"/>
         </form>
     </div>
